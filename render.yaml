@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: skylark-drone-bi-agent
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: PORT
+        value: 3000
+      - key: MONDAY_API_TOKEN
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: DEALS_BOARD_ID
+        sync: false
+      - key: WORK_ORDERS_BOARD_ID
+        sync: false
+      - key: CORS_ORIGIN
+        value: "*"

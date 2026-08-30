@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skylark Drones — Executive BI Intelligence Agent</title>
+    <meta name="description" content="Founder-level business intelligence agent dynamically integrated with Monday.com for Skylark Drones.">
+    <link rel="stylesheet" href="style.css">
+    <!-- Marked.js for fast Markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- DOMPurify for XSS sanitization -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="brand-header">
+                <div class="brand-logo">🚁</div>
+                <div class="brand-text">
+                    <h2>Skylark Drones</h2>
+                    <span><div class="pulse-dot"></div> Live Monday.com Agent</span>
+                </div>
+            </div>
+
+            <div>
+                <div class="sidebar-section-title">Executive Shortcuts</div>
+                <div style="display: flex; flex-direction: column; gap: 0.6rem;">
+                    <button class="nav-button special" onclick="openLeadershipModal()">
+                        <span>📋</span> Generate Leadership Briefing
+                    </button>
+                    <button class="nav-button" onclick="sendQuickPrompt('Compare total pipeline value against executed work orders to identify our current revenue at risk.')">
+                        <span>🔄</span> Cross-Board Revenue Sync
+                    </button>
+                    <button class="nav-button" onclick="sendQuickPrompt('Which work orders are currently delayed or marked On Hold? Provide unbilled amounts and client codes.')">
+                        <span>🚨</span> Operational Delivery Risks
+                    </button>
+                    <button class="nav-button" onclick="sendQuickPrompt('Run a complete data quality and completeness audit for both Deals and Work Orders boards.')">
+                        <span>🔍</span> Data Quality Diagnostics
+                    </button>
+                </div>
+            </div>
+
+            <div>
+                <div class="sidebar-section-title">Sector Analysis</div>
+                <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+                    <button class="nav-button" onclick="sendQuickPrompt('Analyze our Energy and Utilities sector pipeline and win rate for Q1/Q2.')">
+                        <span>⚡</span> Energy & Utilities
+                    </button>
+                    <button class="nav-button" onclick="sendQuickPrompt('How is our Mining sector performing across Deals and Work Orders?')">
+                        <span>⛏️</span> Mining Sector
+                    </button>
+                    <button class="nav-button" onclick="sendQuickPrompt('What is our total deal pipeline in Infrastructure and Government sectors?')">
+                        <span>🏗️</span> Infrastructure & Defense
+                    </button>
+                </div>
+            </div>
+
+            <!-- Board Connection Status Widget -->
+            <div class="board-sync-card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+                    <span style="font-weight:600; color:#fff;">Live Monday.com Sync</span>
+                    <span id="healthScoreBadge" class="health-badge">Connecting...</span>
+                </div>
+                <div class="sync-row">
+                    <span>Deals Board:</span>
+                    <strong id="dealsBoardRows">Loading...</strong>
+                </div>
+                <div class="sync-row">
+                    <span>Work Orders Board:</span>
+                    <strong id="woBoardRows">Loading...</strong>
+                </div>
+                <div class="sync-row">
+                    <span>Data Resilience:</span>
+                    <strong style="color:var(--accent-emerald);">Active Normalized</strong>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="main-content">
+            <!-- Top KPI Overview Bar -->
+            <header class="top-kpi-bar">
+                <div class="kpi-card">
+                    <span class="kpi-title">Total Pipeline</span>
+                    <span id="kpiPipeline" class="kpi-value">Loading...</span>
+                    <span id="kpiDealsSubtext" class="kpi-subtext">Live Monday.com Data</span>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-title">Active Work Orders</span>
+                    <span id="kpiActiveWO" class="kpi-value">Loading...</span>
+                    <span class="kpi-subtext">Across All Sectors</span>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-title">Overall Win Rate</span>
+                    <span id="kpiWinRate" class="kpi-value">Loading...</span>
+                    <span class="kpi-subtext">By Closed Deals</span>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-title">Revenue At Risk</span>
+                    <span id="kpiRisk" class="kpi-value" style="color:var(--accent-amber);">Loading...</span>
+                    <span class="kpi-subtext">Delayed / On-Hold Sync</span>
+                </div>
+            </header>
+
+            <!-- Conversational Chat Stream -->
+            <div id="chatContainer" class="chat-container">
+                <!-- Welcome Bot Message -->
+                <div class="message-wrapper bot">
+                    <div class="avatar bot">🚁</div>
+                    <div class="message-bubble">
+                        <h1>Welcome to Skylark BI Intelligence</h1>
+                        <p>I am your <strong>Executive AI Agent</strong> with direct, real-time integration into your Monday.com <strong>Deals</strong> and <strong>Work Orders</strong> boards.</p>
+                        <p>I automatically clean messy dates, normalize currency and sector figures, detect operational bottlenecks, and formulate strategic founder briefings.</p>
+                        
+                        <h3>⚡ Try asking me:</h3>
+                        <ul>
+                            <li><strong>"How is our pipeline looking for the energy sector this quarter?"</strong></li>
+                            <li><strong>"Which work orders are at high risk of missing delivery dates?"</strong></li>
+                            <li><strong>"Compare contracted deal values with unbilled work order balances."</strong></li>
+                            <li><strong>"Generate our weekly Leadership Briefing for the board."</strong></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Typing Indicator -->
+            <div id="typingIndicator" class="typing-indicator">
+                <div class="avatar bot">🚁</div>
+                <div class="typing-dots">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+
+            <!-- Quick-Action Filter Bar -->
+            <div class="quick-prompts-bar">
+                <span style="font-size:0.75rem; color:var(--text-muted); font-weight:600; text-transform:uppercase; margin-right:0.25rem;">Explore:</span>
+                <button class="prompt-chip" onclick="sendQuickPrompt('Analyze our Energy and Utilities sector pipeline and win rate for Q1/Q2.')">⚡ Energy Sector Pipeline</button>
+                <button class="prompt-chip" onclick="sendQuickPrompt('Which work orders are currently delayed or marked On Hold? Provide unbilled amounts and client codes.')">🚨 Delayed Work Orders</button>
+                <button class="prompt-chip" onclick="sendQuickPrompt('Show me our revenue by sector and win rates.')">📊 Sector Performance</button>
+                <button class="prompt-chip" onclick="sendQuickPrompt('What is our total unbilled amount across all completed work orders?')">💰 Unbilled Balances</button>
+                <button class="prompt-chip" onclick="sendQuickPrompt('Generate our weekly Leadership Briefing for the executive team.')">📋 Leadership Briefing</button>
+            </div>
+
+            <!-- Chat Input Area -->
+            <footer class="input-container">
+                <form id="chatForm" class="input-form" onsubmit="handleChatSubmit(event)">
+                    <textarea 
+                        id="chatInput" 
+                        class="chat-input" 
+                        placeholder="Ask anything about sales pipeline, delivery bottlenecks, or leadership forecasts..." 
+                        rows="1"
+                        onkeydown="handleKeyDown(event)"
+                    ></textarea>
+                    <button type="submit" id="sendBtn" class="send-btn" title="Send message">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                    </button>
+                </form>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Leadership Briefing Modal -->
+    <div id="leadershipModal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div style="display:flex; align-items:center; gap:0.75rem;">
+                    <div style="font-size:1.5rem;">📋</div>
+                    <div>
+                        <h2 style="margin:0; font-size:1.25rem;">Executive Leadership Briefing</h2>
+                        <span id="briefingDate" style="font-size:0.8rem; color:var(--text-muted);">Real-time Monday.com Synthesis</span>
+                    </div>
+                </div>
+                <button class="close-modal-btn" onclick="closeLeadershipModal()">&times;</button>
+            </div>
+
+            <div id="modalBriefingContent" class="modal-body">
+                <div style="text-align:center; padding:3rem 0; color:var(--text-muted);">
+                    <div class="pulse-dot" style="margin:0 auto 1rem; width:12px; height:12px;"></div>
+                    Synthesizing cross-board executive briefing from live Monday.com data...
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="action-chip" onclick="downloadBriefingMarkdown()">📥 Export Markdown</button>
+                <button class="action-chip" onclick="printBriefing()">🖨️ Print / Save PDF</button>
+                <button class="action-chip" onclick="copyModalBriefing()">📋 Copy Briefing</button>
+                <button class="action-chip" onclick="speakModalBriefing()">🔊 Read Aloud</button>
+                <button class="nav-button special" style="padding:0.4rem 1rem; font-size:0.85rem;" onclick="closeLeadershipModal()">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
